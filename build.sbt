@@ -22,7 +22,8 @@ lazy val friendImpl = project("friend-impl")
     version := "1.0-SNAPSHOT",
     libraryDependencies ++= Seq(
       lagomJavadslPersistenceCassandra,
-      lagomJavadslTestKit
+      lagomJavadslTestKit,
+      Library.serviceLocatorDns
     )
   )
   .settings(lagomForkedTestSettings: _*)
@@ -44,7 +45,8 @@ lazy val chirpImpl = project("chirp-impl")
     libraryDependencies ++= Seq(
       lagomJavadslPersistenceCassandra,
       lagomJavadslPubSub,
-      lagomJavadslTestKit
+      lagomJavadslTestKit,
+      Library.serviceLocatorDns
     )
   )
   .settings(lagomForkedTestSettings: _*)
@@ -61,7 +63,10 @@ lazy val activityStreamImpl = project("activity-stream-impl")
   .enablePlugins(LagomJava)
   .settings(
     version := "1.0-SNAPSHOT",
-    libraryDependencies += lagomJavadslTestKit
+    libraryDependencies ++= Seq(
+      lagomJavadslTestKit,
+      Library.serviceLocatorDns
+    )
   )
   .dependsOn(activityStreamApi, chirpApi, friendApi)
 
@@ -74,7 +79,8 @@ lazy val frontEnd = project("front-end")
     libraryDependencies ++= Seq(
       "org.webjars" % "foundation" % "5.5.2",
       "org.webjars" %% "webjars-play" % "2.5.0",
-      lagomJavadslClient
+      lagomJavadslClient,
+      Library.serviceLocatorDns
     ),
 
     includeFilter in webpack := "*.js" || "*.jsx",
@@ -121,7 +127,10 @@ lazy val loadTestApi = project("load-test-api")
 
 lazy val loadTestImpl = project("load-test-impl")
   .enablePlugins(LagomJava)
-  .settings(version := "1.0-SNAPSHOT")
+  .settings(
+    version := "1.0-SNAPSHOT",
+    libraryDependencies += Library.serviceLocatorDns
+   )
   .dependsOn(loadTestApi, friendApi, activityStreamApi, chirpApi)
 
 def project(id: String) = Project(id, base = file(id))
