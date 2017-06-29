@@ -44,6 +44,11 @@
             <groupId>com.typesafe.conductr</groupId>
             <artifactId>${conductr.lib.name}</artifactId>
         </dependency>
+        <!-- Service Locator DNS -->
+        <dependency>
+            <groupId>com.lightbend</groupId>
+            <artifactId>service-locator-dns_2.11</artifactId>
+        </dependency>        
     </dependencies>
 
     <build>
