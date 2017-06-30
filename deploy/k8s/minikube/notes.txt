@@ -1,6 +1,14 @@
 NOTE: I'm using this file to archive some commands and general workflow. Its contents
       will ultimately end up somewhere else.
 
+# Setup environment
+    $ eval $(minikube docker-env)
+    -> 0
+
+# Build images
+
+    $ mvn clean package docker:build
+
 # Create a stateful set for front-end
 
     $ kubectl create -f deploy/k8/minikube/lagom/front-end/front-end-statefulset.json

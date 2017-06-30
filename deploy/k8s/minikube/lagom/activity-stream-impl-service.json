@@ -3,19 +3,19 @@
   "kind": "Service",
   "metadata": {
     "labels": {
-      "app": "friendservice"
+      "app": "activityservice"
     },
-    "name": "friendservice"
+    "name": "activityservice"
   },
   "spec": {
     "clusterIP": "None",
     "ports": [
       {
-        "port": 12001
+        "port": 9000
       }
     ],
     "selector": {
-      "app": "friendservice"
+      "app": "activityservice"
     }
   }
 }

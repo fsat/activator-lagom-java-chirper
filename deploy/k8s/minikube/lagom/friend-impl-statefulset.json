@@ -1,0 +1,64 @@
+{
+  "apiVersion": "apps/v1beta1",
+  "kind": "StatefulSet",
+  "metadata": {
+    "name": "friendservice"
+  },
+  "spec": {
+    "serviceName": "friendservice",
+    "replicas": 1,
+    "template": {
+      "metadata": {
+        "labels": {
+          "app": "friendservice"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "friendservice",
+            "image": "chirper/friend-impl",
+            "imagePullPolicy": "Never",
+            "ports": [
+              {
+                "containerPort": 9000,
+                "name": "endpoint"
+              }
+            ],
+            "resources": {
+              "limits": {
+                "cpu": "500m",
+                "memory": "384Mi"
+              },
+              "requests": {
+                "cpu": "500m",
+                "memory": "384Mi"
+              }
+            },
+            "env": [
+              {
+                "name": "FRIENDSERVICE_BIND_PORT",
+                "value": "9000"
+              },
+              {
+                "name": "FRIENDSERVICE_BIND_IP",
+                "valueFrom": {
+                  "fieldRef": {
+                    "fieldPath": "status.podIP"
+                  }
+                }
+              }
+            ],
+            "readinessProbe": {
+              "tcpSocket": {
+                "port": 9000
+              },
+              "initialDelaySeconds": 30,
+              "timeoutSeconds": 30
+            }
+          }
+        ]
+      }
+    }
+  }
+}

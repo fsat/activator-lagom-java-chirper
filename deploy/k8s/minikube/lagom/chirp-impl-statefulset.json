@@ -2,26 +2,26 @@
   "apiVersion": "apps/v1beta1",
   "kind": "StatefulSet",
   "metadata": {
-    "name": "friendservice"
+    "name": "chirpservice"
   },
   "spec": {
-    "serviceName": "friendservice",
+    "serviceName": "chirpservice",
     "replicas": 1,
     "template": {
       "metadata": {
         "labels": {
-          "app": "friendservice"
+          "app": "chirpservice"
         }
       },
       "spec": {
         "containers": [
           {
-            "name": "friendservice",
-            "image": "chirper/friend-impl",
+            "name": "chirpservice",
+            "image": "chirper/chirp-impl",
             "imagePullPolicy": "Never",
             "ports": [
               {
-                "containerPort": 12001,
+                "containerPort": 9000,
                 "name": "endpoint"
               }
             ],
@@ -37,11 +37,11 @@
             },
             "env": [
               {
-                "name": "FRIENDSERVICE_BIND_PORT",
-                "value": "12001"
+                "name": "CHIRPSERVICE_BIND_PORT",
+                "value": "9000"
               },
               {
-                "name": "FRIENDSERVICE_BIND_IP",
+                "name": "CHIRPSERVICE_BIND_IP",
                 "valueFrom": {
                   "fieldRef": {
                     "fieldPath": "status.podIP"
@@ -51,7 +51,7 @@
             ],
             "readinessProbe": {
               "tcpSocket": {
-                "port": 12001
+                "port": 9000
               },
               "initialDelaySeconds": 30,
               "timeoutSeconds": 30
