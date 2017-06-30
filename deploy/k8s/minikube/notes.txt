@@ -1,37 +1,23 @@
 NOTE: I'm using this file to archive some commands and general workflow. Its contents
       will ultimately end up somewhere else.
 
-# Setup environment
-    $ eval $(minikube docker-env)
-    -> 0
-
 # Build images
 
     $ mvn clean package docker:build
 
-# Create a stateful set for front-end
+# Reset minikube
 
-    $ kubectl create -f deploy/k8/minikube/lagom/front-end/front-end-statefulset.json
-    statefulset "front-end" created
-    -> 0
+  $ minikube delete
+  $ minikube start
 
-    $ kubectl get statefulsets
-    NAME        DESIRED   CURRENT   AGE
-    front-end   1         0         15s
-    -> 0
+# Setup environment
 
-# Expose pod-0 and open it in the browser
+    $ eval $(minikube docker-env)
 
-    $ kubectl expose pod front-end-0 --type=LoadBalancer
-    service "front-end-0" exposed
-    -> 0
+# Load everything
 
-     $ kubectl get services
-    NAME          CLUSTER-IP   EXTERNAL-IP   PORT(S)           AGE
-    front-end-0   10.0.0.174   <pending>     12002:31089/TCP   11s
-    kubernetes    10.0.0.1     <none>        443/TCP           19h
-    -> 0
+    $ kubectl create -f deploy/k8s/minikube
 
-    $ minikube service front-end-0
-    Opening kubernetes service default/front-end-0 in default browser...
-    -> 0
+# Open ingress in browser
+
+    $ minikube service nginx-ingress
