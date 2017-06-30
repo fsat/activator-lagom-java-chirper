@@ -1,0 +1,64 @@
+{
+  "apiVersion": "apps/v1beta1",
+  "kind": "StatefulSet",
+  "metadata": {
+    "name": "front-end"
+  },
+  "spec": {
+    "serviceName": "front-end",
+    "replicas": 1,
+    "template": {
+      "metadata": {
+        "labels": {
+          "app": "front-end"
+        }
+      },
+      "spec": {
+        "containers": [
+          {
+            "name": "front-end",
+            "image": "chirper/front-end",
+            "imagePullPolicy": "Never",
+            "ports": [
+              {
+                "containerPort": 12002,
+                "name": "endpoint"
+              }
+            ],
+            "resources": {
+              "limits": {
+                "cpu": "500m",
+                "memory": "384Mi"
+              },
+              "requests": {
+                "cpu": "500m",
+                "memory": "384Mi"
+              }
+            },
+            "env": [
+              {
+                "name": "WEB_BIND_PORT",
+                "value": "12002"
+              },
+              {
+                "name": "WEB_BIND_IP",
+                "valueFrom": {
+                  "fieldRef": {
+                    "fieldPath": "status.podIP"
+                  }
+                }
+              }
+            ],
+            "readinessProbe": {
+              "tcpSocket": {
+                "port": 12002
+              },
+              "initialDelaySeconds": 30,
+              "timeoutSeconds": 30
+            }
+          }
+        ]
+      }
+    }
+  }
+}
