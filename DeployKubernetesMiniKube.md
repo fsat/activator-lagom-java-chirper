@@ -116,3 +116,23 @@ chirper/chirp-impl                                     latest              a15de
 chirper/friend-impl                                    1.0-SNAPSHOT        cee7f72a23ad        19 minutes ago      150 MB
 chirper/friend-impl                                    latest              cee7f72a23ad        19 minutes ago      150 MB
 ```
+
+# Deploy Friend Service
+
+Deploy the Friend Service.
+
+```
+kubectl create -f deploy/k8/minikube/lagom/friend-impl/friend-impl-statefulset.json
+```
+
+Check deploy status.
+
+```
+kubectl get pods -l="app=friendservice"
+```
+
+View the complete pod status.
+
+```
+kubectl describe pod friendservice
+```
