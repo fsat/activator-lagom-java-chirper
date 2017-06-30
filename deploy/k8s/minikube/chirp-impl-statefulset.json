@@ -22,20 +22,24 @@
             "ports": [
               {
                 "containerPort": 9000,
-                "name": "endpoint"
+                "name": "chirpservice"
               }
             ],
             "resources": {
               "limits": {
-                "cpu": "500m",
+                "cpu": "250m",
                 "memory": "384Mi"
               },
               "requests": {
-                "cpu": "500m",
+                "cpu": "250m",
                 "memory": "384Mi"
               }
             },
             "env": [
+              {
+                "name": "CASSANDRA_SERVICE_NAME",
+                "value": "cassandra"
+              },
               {
                 "name": "CHIRPSERVICE_BIND_PORT",
                 "value": "9000"

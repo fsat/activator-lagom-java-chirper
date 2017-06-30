@@ -2,18 +2,14 @@
   "apiVersion": "extensions/v1beta1",
   "kind": "Deployment",
   "metadata": {
-    "name": "nginx-default-backend",
-    "labels": {
-      "k8s-app": "nginx-default-backend"
-    },
-    "namespace": "kube-system"
+    "name": "nginx-default-backend"
   },
   "spec": {
     "replicas": 1,
     "template": {
       "metadata": {
         "labels": {
-          "k8s-app": "nginx-default-backend"
+          "app": "nginx-default-backend"
         }
       },
       "spec": {
@@ -49,6 +45,5 @@
         ]
       }
     }
-  },
-  "memory": "20Mi"
+  }
 }
