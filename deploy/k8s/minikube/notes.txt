@@ -10,7 +10,7 @@ PREREQS: A working installation of `kubectl` and `minikube`
   mvn package docker:build && \
   kubectl create -f deploy/k8s/minikube && \
   kubectl get pods && \
-  echo 'when `kubectl get pods` shows everything is running, run: minikube service nginx-ingress'
+  echo '*** NOTE ***: When `kubectl get pods` shows everything is running, run `minikube service nginx-ingress` to open the LB in your browser'
 
 
 # Or piece-by-piece

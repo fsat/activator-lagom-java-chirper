@@ -40,15 +40,17 @@
             <artifactId>lagom-javadsl-testkit_2.11</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.typesafe.conductr</groupId>
-            <artifactId>${conductr.lib.name}</artifactId>
-        </dependency>
+        <!-- Ignore conductr-lib for now since we don't want its service locator
+         <dependency>
+             <groupId>com.typesafe.conductr</groupId>
+             <artifactId>${conductr.lib.name}</artifactId>
+         </dependency> -->
         <!-- Service Locator DNS -->
         <dependency>
             <groupId>com.lightbend</groupId>
-            <artifactId>service-locator-dns_2.11</artifactId>
-        </dependency>        
+            <artifactId>lagom-service-locator-dns_2.11</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 
     <build>
