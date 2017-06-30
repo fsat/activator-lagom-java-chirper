@@ -42,7 +42,7 @@
             "env": [
               {
                 "name": "CASSANDRA_SERVICE_NAME",
-                "value": "cassandra"
+                "value": "_native._tcp.cassandra.default.svc.cluster.local"
               },
               {
                 "name": "ACTIVITYSERVICE_BIND_PORT",
