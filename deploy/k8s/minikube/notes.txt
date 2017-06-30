@@ -7,7 +7,7 @@ PREREQS: A working installation of `kubectl` and `minikube`
   (minikube delete || true) && \
   minikube start --memory 8192 && \
   eval $(minikube docker-env) && \
-  mvn package docker:build && \
+  mvn clean package docker:build && \
   kubectl create -f deploy/k8s/minikube && \
   kubectl get pods && \
   echo '*** NOTE ***: When `kubectl get pods` shows everything is running, run `minikube service nginx-ingress` to open the LB in your browser'
@@ -29,7 +29,7 @@ PREREQS: A working installation of `kubectl` and `minikube`
 
 # Build docker images on minikube
 
-  $ mvn package docker:build
+  $ mvn clean package docker:build
 
 # Load everything
 
