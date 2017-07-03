@@ -94,7 +94,7 @@
                         <image>
                             <build>
                                 <entryPoint>
-                                    java -cp '/maven/*' -Dplay.crypto.secret="${APPLICATION_SECRET:-none}" -Dhttp.address="$FRIENDSERVICE_BIND_IP" -Dhttp.port="$FRIENDSERVICE_BIND_PORT" -Dakka.actor.provider=cluster -Dakka.remote.netty.tcp.hostname="$AKKA_REMOTING_BIND_HOST" -Dakka.remote.netty.tcp.port="$AKKA_REMOTING_BIND_PORT" -Dakka.cluster.seed-nodes.0="akka.tcp://${AKKA_ACTOR_SYSTEM_NAME}@${AKKA_SEED_NODE_HOST}:${AKKA_SEED_NODE_PORT}" play.core.server.ProdServerStart
+                                    java -cp '/maven/*' -Dplay.crypto.secret="${APPLICATION_SECRET:-none}" -Dplay.akka.actor-system="${AKKA_ACTOR_SYSTEM_NAME:-application}" -Dhttp.address="$FRIENDSERVICE_BIND_IP" -Dhttp.port="$FRIENDSERVICE_BIND_PORT" -Dakka.actor.provider=cluster -Dakka.remote.netty.tcp.hostname="$AKKA_REMOTING_BIND_HOST" -Dakka.remote.netty.tcp.port="$AKKA_REMOTING_BIND_PORT" -Dakka.cluster.seed-nodes.0="akka.tcp://${AKKA_ACTOR_SYSTEM_NAME}@${AKKA_SEED_NODE_HOST}:${AKKA_SEED_NODE_PORT}" play.core.server.ProdServerStart
                                 </entryPoint>
                             </build>
                         </image>

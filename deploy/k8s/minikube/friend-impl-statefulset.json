@@ -62,7 +62,7 @@
               },
               {
                 "name": "AKKA_ACTOR_SYSTEM_NAME",
-                "value": "application"
+                "value": "friendservice-v1"
               },
               {
                 "name": "AKKA_REMOTING_BIND_PORT",
