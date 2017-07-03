@@ -104,6 +104,7 @@
              <dependency>
                  <groupId>com.typesafe.conductr</groupId>
                  <artifactId>${conductr.lib.name}</artifactId>
+                 <version>1.9.1</version>
              </dependency> -->
             <!-- front-end webjars -->
             <dependency>
