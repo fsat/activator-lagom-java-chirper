@@ -22,7 +22,7 @@
             "ports": [
               {
                 "containerPort": 9000,
-                "name": "friendservice"
+                "name": "api"
               },
               {
                 "containerPort": 2551,
