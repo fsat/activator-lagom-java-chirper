@@ -46,7 +46,7 @@
               },
               {
                 "name": "APPLICATION_SECRET",
-                "value": "friend-service-application-secret"
+                "value": "friendservice-application-secret"
               },
               {
                 "name": "FRIENDSERVICE_BIND_PORT",
