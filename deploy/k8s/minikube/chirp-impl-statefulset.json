@@ -22,7 +22,11 @@
             "ports": [
               {
                 "containerPort": 9000,
-                "name": "chirpservice"
+                "name": "api"
+              },
+              {
+                "containerPort": 2551,
+                "name": "akka-remote"
               }
             ],
             "resources": {
@@ -41,6 +45,10 @@
                 "value": "_native._tcp.cassandra.default.svc.cluster.local"
               },
               {
+                "name": "APPLICATION_SECRET",
+                "value": "chirpservice-application-secret"
+              },
+              {
                 "name": "CHIRPSERVICE_BIND_PORT",
                 "value": "9000"
               },
@@ -49,6 +57,46 @@
                 "valueFrom": {
                   "fieldRef": {
                     "fieldPath": "status.podIP"
+                  }
+                }
+              },
+              {
+                "name": "AKKA_ACTOR_SYSTEM_NAME",
+                "value": "chirpservice-v1"
+              },
+              {
+                "name": "AKKA_REMOTING_BIND_PORT",
+                "value": "2551"
+              },
+              {
+                "name": "AKKA_REMOTING_BIND_HOST",
+                "valueFrom": {
+                  "fieldRef": {
+                    "fieldPath": "metadata.name"
+                  }
+                }
+              },
+              {
+                "name": "AKKA_SEED_NODE_PORT",
+                "value": "2551"
+              },
+              {
+                "name": "AKKA_SEED_NODE_HOST",
+                "value": "chirpservice-0"
+              },
+              {
+                "name": "POD_NAME",
+                "valueFrom": {
+                  "fieldRef": {
+                    "fieldPath": "metadata.name"
+                  }
+                }
+              },
+              {
+                "name": "POD_NAMESPACE",
+                "valueFrom": {
+                  "fieldRef": {
+                    "fieldPath": "metadata.namespace"
                   }
                 }
               }
