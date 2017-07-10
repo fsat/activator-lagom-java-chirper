@@ -21,7 +21,9 @@ echo '****************************'
 
 kubectl create -f deploy/k8s/minikube/cassandra
 
-# todo wait until stabilized
+while (kubectl get pods | grep 0/1) &>/dev/null; do sleep 1; done
+
+kubectl exec cassandra-0 -- nodetool status
 
 echo '****************************'
 echo '***  Building chirper    ***'
@@ -29,13 +31,15 @@ echo '****************************'
 
 mvn clean package docker:build
 
+docker images
+
 echo '****************************'
 echo '***  Deploying chirper   ***'
 echo '****************************'
 
 kubectl create -f deploy/k8s/minikube/chirper
 
-# todo wait until stabilized
+while (kubectl get pods | grep 0/1) &>/dev/null; do sleep 1; done
 
 echo '****************************'
 echo '***  Deploying nginx   ***'
@@ -43,7 +47,7 @@ echo '****************************'
 
 kubectl create -f deploy/k8s/minikube/nginx
 
-# todo wait until stabilized
+while (kubectl get pods | grep 0/1) &>/dev/null; do sleep 1; done
 
 kubectl get pods
 
