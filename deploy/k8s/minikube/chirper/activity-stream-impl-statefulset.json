@@ -22,7 +22,7 @@
             "ports": [
               {
                 "containerPort": 9000,
-                "name": "api"
+                "name": "lagom-api"
               },
               {
                 "containerPort": 2551,
@@ -114,6 +114,3 @@
     }
   }
 }
-
-
-

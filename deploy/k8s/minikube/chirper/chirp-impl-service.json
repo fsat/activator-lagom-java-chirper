@@ -11,7 +11,7 @@
     "clusterIP": "None",
     "ports": [
       {
-        "name": "api",
+        "name": "lagom-api",
         "port": 9000,
         "protocol": "TCP",
         "targetPort": 9000
