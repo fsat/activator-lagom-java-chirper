@@ -21,7 +21,7 @@ echo '****************************'
 
 kubectl create -f deploy/k8s/minikube/cassandra
 
-while (kubectl get pods | grep 0/1) &>/dev/null; do sleep 1; done
+while ! (kubectl get pods | grep 1/1) &>/dev/null; do sleep 1; done
 
 kubectl exec cassandra-0 -- nodetool status
 
