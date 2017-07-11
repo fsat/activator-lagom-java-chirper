@@ -57,11 +57,15 @@ echo '***  Deploying istio/addons   ***'
 echo '*********************************'
 
 kubectl apply -f "$ISTIO_PATH/install/kubernetes/istio-rbac-beta.yaml"
-kubectl apply -f "$ISTIO_PATH/install/kubernetes/istio-auth.yaml"
+kubectl apply -f "$ISTIO_PATH/install/kubernetes/istio.yaml"
 #kubectl apply -f "$ISTIO_PATH/install/kubernetes/addons/prometheus.yaml"
 #kubectl apply -f "$ISTIO_PATH/install/kubernetes/addons/grafana.yaml"
 #kubectl apply -f "$ISTIO_PATH/install/kubernetes/addons/servicegraph.yaml"
 wait-for-pods
+
+export GATEWAY_URL=$(kubectl get po -l istio=ingress -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingress -o 'jsonpath={.spec.ports[0].nodePort}')
+
+curl -i "$GATEWAY_URL"
 
 echo '****************************'
 echo '***  Deploying cassandra ***'
@@ -97,8 +101,4 @@ wait-for-pods
 
 kubectl get pods
 
-GATEWAY_URL=$(kubectl get po -l istio=ingress -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingress -o 'jsonpath={.spec.ports[0].nodePort}')
-
 echo $GATEWAY_URL
-
-#minikube service nginx-ingress
