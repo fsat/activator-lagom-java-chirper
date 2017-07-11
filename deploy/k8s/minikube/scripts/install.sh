@@ -3,8 +3,15 @@
 set -e
 
 (which minikube &>/dev/null) || (echo '* missing minikube, is it installed?' && exit 1)
+(which kubectl &>/dev/null) || (echo '* missing kubectl, is it installed?' && exit 1)
 (which docker &>/dev/null) || (echo '* missing docker; is it installed?' && exit 1)
+(which mvn &>/dev/null) || (echo '* missing mvn; is it installed?' && exit 1)
 
+wait-for-pods() {
+    echo -n 'waiting...'
+    while (kubectl get pods 2>&1 | grep '0/\|1/2\|No resources') &>/dev/null; do echo -n '.' && sleep 1; done
+    echo
+}
 echo '****************************'
 echo '***  Resetting minikube  ***'
 echo '****************************'
@@ -20,8 +27,7 @@ echo '***  Deploying cassandra ***'
 echo '****************************'
 
 kubectl create -f deploy/k8s/minikube/cassandra
-
-while ! (kubectl get pods | grep 1/1) &>/dev/null; do sleep 1; done
+wait-for-pods
 
 kubectl exec cassandra-0 -- nodetool status
 
@@ -38,16 +44,14 @@ echo '***  Deploying chirper   ***'
 echo '****************************'
 
 kubectl create -f deploy/k8s/minikube/chirper
-
-while (kubectl get pods | grep 0/1) &>/dev/null; do sleep 1; done
+wait-for-pods
 
 echo '****************************'
 echo '***  Deploying nginx   ***'
 echo '****************************'
 
 kubectl create -f deploy/k8s/minikube/nginx
-
-while (kubectl get pods | grep 0/1) &>/dev/null; do sleep 1; done
+wait-for-pods
 
 kubectl get pods
 
