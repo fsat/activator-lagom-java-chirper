@@ -52,6 +52,15 @@ minikube start --memory 8192
 
 eval $(minikube docker-env)
 
+echo '****************************'
+echo '***  Deploying cassandra ***'
+echo '****************************'
+
+kubectl create -f "$RESOURCES_PATH/cassandra"
+wait-for-pods
+
+kubectl exec cassandra-0 -- nodetool status
+
 echo '*********************************'
 echo '***  Deploying istio/addons   ***'
 echo '*********************************'
@@ -66,15 +75,6 @@ wait-for-pods
 export GATEWAY_URL=$(kubectl get po -l istio=ingress -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingress -o 'jsonpath={.spec.ports[0].nodePort}')
 
 curl -i "$GATEWAY_URL"
-
-echo '****************************'
-echo '***  Deploying cassandra ***'
-echo '****************************'
-
-kubectl create -f "$RESOURCES_PATH/cassandra"
-wait-for-pods
-
-kubectl exec cassandra-0 -- nodetool status
 
 echo '****************************'
 echo '***  Building chirper    ***'
