@@ -2,6 +2,8 @@
 
 set -e
 
+RESOURCES_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
 (which minikube &>/dev/null) || (echo '* missing minikube, is it installed?' && exit 1)
 (which kubectl &>/dev/null) || (echo '* missing kubectl, is it installed?' && exit 1)
 (which docker &>/dev/null) || (echo '* missing docker; is it installed?' && exit 1)
@@ -35,7 +37,7 @@ echo '****************************'
 echo '***  Building chirper    ***'
 echo '****************************'
 
-mvn clean package docker:build
+(cd "$RESOURCES_PATH/../../.." && mvn clean package docker:build)
 
 docker images
 

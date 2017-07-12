@@ -51,10 +51,11 @@ echo '****************************'
 echo '***  Building chirper    ***'
 echo '****************************'
 
-mvn clean package docker:build
+(cd "$RESOURCES_PATH/../../.." && mvn clean package docker:build)
+
 docker images
 
-export GATEWAY_URL=$(kubectl get po -l istio=ingress -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingress -o 'jsonpath={.spec.ports[0].nodePort}')
+export GATEWAY_URL="$(kubectl get po -l istio=ingress -o 'jsonpath={.items[0].status.hostIP}'):$(kubectl get svc istio-ingress -o 'jsonpath={.spec.ports[0].nodePort}')"
 
 echo '**********************************'
 echo '***  Deploying chirper/istio   ***'
@@ -71,6 +72,3 @@ echo
 echo
 echo "Chirper: $(minikube service --url istio-ingress | head -n 1)"
 echo "Kubernetes Dashboard: $(minikube dashboard --url)"
-
-minikube service --url istio-ingress
-
