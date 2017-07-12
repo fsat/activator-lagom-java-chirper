@@ -73,6 +73,9 @@ for file in $RESOURCES_PATH/chirper/*; do
         istioctl-kube-inject "$file" | kubectl create -f -
     fi
 done
+
+kubectl create -f "$RESOURCES_PATH/istio"
+
 wait-for-pods
 
 kubectl get pods
