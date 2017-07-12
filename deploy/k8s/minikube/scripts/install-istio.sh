@@ -62,7 +62,16 @@ echo '***  Deploying chirper/istio   ***'
 echo '**********************************'
 
 for file in $RESOURCES_PATH/chirper/*; do
-    istioctl-kube-inject "$file" | kubectl create -f -
+    # @TODO FIXME: This doesn't solve the problem as the ingress is still powered by envoy
+
+    # envoy doesn't support websockets, so we need to bypass Istio proxy injection for these services
+    # https://github.com/lyft/envoy/issues/319
+
+    if (grep -q "chirp-impl\|activity-stream-impl" <<< "$file"); then
+        kubectl create -f "$file"
+    else
+        istioctl-kube-inject "$file" | kubectl create -f -
+    fi
 done
 wait-for-pods
 
