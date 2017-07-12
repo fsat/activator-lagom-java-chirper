@@ -8,10 +8,9 @@
     "name": "chirpservice"
   },
   "spec": {
-    "clusterIP": "None",
     "ports": [
       {
-        "name": "lagom-api",
+        "name": "http-lagom-api",
         "port": 9000,
         "protocol": "TCP",
         "targetPort": 9000

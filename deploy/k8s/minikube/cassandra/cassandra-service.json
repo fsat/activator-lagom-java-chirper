@@ -8,7 +8,6 @@
     "name": "cassandra"
   },
   "spec": {
-    "clusterIP": "None",
     "ports": [
       {
         "name": "native",

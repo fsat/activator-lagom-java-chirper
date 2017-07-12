@@ -55,4 +55,7 @@ wait-for-pods
 
 kubectl get pods
 
-minikube service nginx-ingress
+echo
+echo
+echo "Chirper UI: $(minikube service --url nginx-ingress)"
+echo "Kubernetes Dashboard: $(minikube dashboard --url)"

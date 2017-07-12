@@ -8,9 +8,9 @@
     "name": "web"
   },
   "spec": {
-    "clusterIP": "None",
     "ports": [
       {
+        "name": "http-play",
         "port": 9000
       }
     ],

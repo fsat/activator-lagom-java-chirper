@@ -8,7 +8,6 @@
     "name": "activityservice-akka-remoting"
   },
   "spec": {
-    "clusterIP": "None",
     "ports": [
       {
         "port": 2551,
