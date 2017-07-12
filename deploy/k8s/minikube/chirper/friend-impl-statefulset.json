@@ -22,7 +22,7 @@
             "ports": [
               {
                 "containerPort": 9000,
-                "name": "http-lagom-api"
+                "name": "tcp-lagom-api"
               },
               {
                 "containerPort": 2551,
@@ -44,7 +44,7 @@
               },
               {
                 "name": "FRIENDSERVICE_BIND_IP",
-                "value":
+                "value": "0.0.0.0"
               },
               {
                 "name": "AKKA_ACTOR_SYSTEM_NAME",
