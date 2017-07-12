@@ -2,9 +2,15 @@
   "apiVersion": "extensions/v1beta1",
   "kind": "Ingress",
   "metadata": {
-    "name": "chirper-ingress"
+    "name": "chirper-ingress",
+    "annotations": {
+      "kubernetes.io/ingress.class": "nginx"
+    }
   },
   "spec": {
+    "tls": [
+      { "secretName": "chirper-tls-secret" }
+    ],
     "rules": [
       {
         "http": {

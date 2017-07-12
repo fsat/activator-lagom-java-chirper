@@ -8,6 +8,7 @@ RESOURCES_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 (which kubectl &>/dev/null) || (echo '* missing kubectl, is it installed?' && exit 1)
 (which docker &>/dev/null) || (echo '* missing docker; is it installed?' && exit 1)
 (which mvn &>/dev/null) || (echo '* missing mvn; is it installed?' && exit 1)
+(which openssl &>/dev/null) || (echo '* missing openssl; is it installed?' && exit 1)
 
 wait-for-pods() {
     echo -n 'waiting...'
@@ -23,6 +24,20 @@ echo '****************************'
 minikube start --memory 8192
 
 eval $(minikube docker-env)
+
+echo '****************************'
+echo '***  Configuring TLS     ***'
+echo '****************************'
+
+SSL_TEMP_DIR="$(mktemp -d)"
+
+openssl req \
+    -x509 -newkey rsa:2048 -nodes -days 365 \
+    -keyout "$SSL_TEMP_DIR/tls.key" -out "$SSL_TEMP_DIR/tls.crt" -subj "/CN=localhost"
+
+kubectl create secret tls chirper-tls-secret "--cert=$SSL_TEMP_DIR/tls.crt" "--key=$SSL_TEMP_DIR/tls.key"
+
+rm -rf "$SSL_TEMP_DIR"
 
 echo '****************************'
 echo '***  Deploying cassandra ***'
@@ -49,7 +64,7 @@ kubectl create -f deploy/k8s/minikube/chirper
 wait-for-pods
 
 echo '****************************'
-echo '***  Deploying nginx   ***'
+echo '***  Deploying nginx     ***'
 echo '****************************'
 
 kubectl create -f deploy/k8s/minikube/nginx
@@ -59,5 +74,6 @@ kubectl get pods
 
 echo
 echo
-echo "Chirper UI: $(minikube service --url nginx-ingress)"
+echo "Chirper UI (HTTP): $(minikube service --url nginx-ingress | head -n 1)"
+echo "Chirper UI (HTTPS): $(minikube service --url --https nginx-ingress | tail -n 1)"
 echo "Kubernetes Dashboard: $(minikube dashboard --url)"
