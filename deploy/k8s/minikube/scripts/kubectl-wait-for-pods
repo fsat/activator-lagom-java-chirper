@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+while (kubectl get pods 2>&1 | grep '0/\|1/2\|No resources') &>/dev/null; do
+    sleep 1
+done

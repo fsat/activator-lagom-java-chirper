@@ -9,7 +9,7 @@ RESOURCES_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 (which docker &>/dev/null) || (echo '* missing docker; is it installed?' && exit 1)
 (which mvn &>/dev/null) || (echo '* missing mvn; is it installed?' && exit 1)
 
-source "$RESOURCES_PATH/scripts/istioctl-kube-inject-wrapper.sh"
+source "$RESOURCES_PATH/scripts/istioctl-kube-inject-wrapper"
 
 wait-for-pods() {
     echo -n 'waiting...'
@@ -62,16 +62,7 @@ echo '***  Deploying chirper/istio   ***'
 echo '**********************************'
 
 for file in $RESOURCES_PATH/chirper/*; do
-    # @TODO FIXME: This doesn't solve the problem as the ingress is still powered by envoy
-
-    # envoy doesn't support websockets, so we need to bypass Istio proxy injection for these services
-    # https://github.com/lyft/envoy/issues/319
-
-    if (grep -q "chirp-impl\|activity-stream-impl" <<< "$file"); then
-        kubectl create -f "$file"
-    else
-        istioctl-kube-inject "$file" | kubectl create -f -
-    fi
+    istioctl-kube-inject "$file" | kubectl create -f -
 done
 
 kubectl create -f "$RESOURCES_PATH/istio"
