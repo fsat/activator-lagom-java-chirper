@@ -56,11 +56,7 @@
               },
               {
                 "name": "AKKA_REMOTING_BIND_HOST",
-                "valueFrom": {
-                  "fieldRef": {
-                    "fieldPath": "metadata.name"
-                  }
-                }
+                "value": "$HOSTNAME.friendservice.default.svc.cluster.local"
               },
               {
                 "name": "AKKA_SEED_NODE_PORT",
@@ -68,7 +64,7 @@
               },
               {
                 "name": "AKKA_SEED_NODE_HOST",
-                "value": "friendservice-0"
+                "value": "friendservice-0.friendservice.default.svc.cluster.local"
               },
               {
                 "name": "POD_NAME",

@@ -56,11 +56,7 @@
               },
               {
                 "name": "AKKA_REMOTING_BIND_HOST",
-                "valueFrom": {
-                  "fieldRef": {
-                    "fieldPath": "metadata.name"
-                  }
-                }
+                "value": "$HOSTNAME.chirpservice.default.svc.cluster.local"
               },
               {
                 "name": "AKKA_SEED_NODE_PORT",
@@ -68,7 +64,7 @@
               },
               {
                 "name": "AKKA_SEED_NODE_HOST",
-                "value": "chirpservice-0"
+                "value": "chirpservice-0.chirpservice.default.svc.cluster.local"
               },
               {
                 "name": "POD_NAME",
