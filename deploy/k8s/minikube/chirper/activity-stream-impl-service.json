@@ -8,6 +8,7 @@
     "name": "activityservice"
   },
   "spec": {
+    "clusterIP": "None",
     "ports": [
       {
         "name": "http-lagom-api",

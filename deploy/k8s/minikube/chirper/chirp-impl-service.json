@@ -8,6 +8,7 @@
     "name": "chirpservice"
   },
   "spec": {
+    "clusterIP": "None",
     "ports": [
       {
         "name": "http-lagom-api",
