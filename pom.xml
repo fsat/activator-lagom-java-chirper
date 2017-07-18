@@ -136,7 +136,7 @@
             <dependency>
                 <groupId>com.lightbend</groupId>
                 <artifactId>lagom-service-locator-dns_2.11</artifactId>
-                <version>1.0.1</version>
+                <version>1.0.2</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

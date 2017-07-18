@@ -1,7 +1,7 @@
 import sbt._
 
 object Version {
-  val serviceLocatorDns = "1.0.1"
+  val serviceLocatorDns = "1.0.2"
 }
 
 object Library {
