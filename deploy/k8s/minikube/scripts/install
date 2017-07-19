@@ -70,7 +70,7 @@ echo '****************************'
 kubectl create -f deploy/k8s/minikube/nginx
 wait-for-pods
 
-kubectl get pods
+kubectl get all
 
 echo
 echo
