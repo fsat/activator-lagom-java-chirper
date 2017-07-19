@@ -1,0 +1,106 @@
+#!/usr/bin/env bash
+
+REGISTRY="registry.ng.bluemix.net/lightbend"
+RESOURCES_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")/../resources" && pwd)"
+
+(which kubectl &>/dev/null) || (echo '* missing kubectl, is it installed?' && exit 1)
+(which bx &>/dev/null) || (echo '* missing bx, is it installed?' && exit 1)
+(which jq &>/dev/null) || (echo '* missing jq, is it installed?' && exit 1)
+(which docker &>/dev/null) || (echo '* missing docker; is it installed?' && exit 1)
+(which mvn &>/dev/null) || (echo '* missing mvn; is it installed?' && exit 1)
+
+echo '*******************************************************************************************************'
+echo 'This WIP script has no options. Its options must be enabled manually by editing it and changing 0 to 1'
+echo 'Ensure that your bx and kubectl state has been setup for this terminal by following guides on IBM site'
+echo '*******************************************************************************************************'
+
+CONFIGURE_TLS=0
+DEPLOY_CASSANDRA=0
+BUILD_CHIRPER=0
+UPLOAD_CHIRPER=0
+DEPLOY_CHIRPER=0
+DEPLOY_NGINX=0
+
+read -p 'Press anything to continue, or CTRL-C to exit'
+
+if [ "$CONFIGURE_TLS" == "1" ]; then
+    echo '****************************'
+    echo '***  Configuring TLS     ***'
+    echo '****************************'
+
+    SSL_TEMP_DIR="$(mktemp -d)"
+
+    openssl req \
+        -x509 -newkey rsa:2048 -nodes -days 365 \
+        -keyout "$SSL_TEMP_DIR/tls.key" -out "$SSL_TEMP_DIR/tls.crt" -subj "/CN=localhost"
+
+    kubectl create secret tls chirper-tls-secret "--cert=$SSL_TEMP_DIR/tls.crt" "--key=$SSL_TEMP_DIR/tls.key"
+
+    rm -rf "$SSL_TEMP_DIR"
+fi
+
+if [ "$DEPLOY_CASSANDRA" == "1" ]; then
+    echo '****************************'
+    echo '***  Deploying cassandra ***'
+    echo '****************************'
+
+    kubectl create -f "$RESOURCES_PATH/cassandra"
+fi
+
+if [ "$BUILD_CHIRPER" == "1" ]; then
+    echo '****************************'
+    echo '***  Building chirper    ***'
+    echo '****************************'
+
+    (cd "$RESOURCES_PATH/../../.." && mvn clean package docker:build)
+fi
+
+
+if [ "$UPLOAD_CHIRPER" == "1" ]; then
+    IMAGES=()
+    for file in $RESOURCES_PATH/chirper/*; do
+        image="$(jq -M -r ". | if .kind != \"StatefulSet\" then \"\" else .spec.template.spec.containers | map(.image)[0] end" "$file")"
+
+        if [ "$image" != "" ]; then
+            IMAGES+=("$image")
+        fi
+    done
+
+    echo '****************************'
+    echo '***  Uploading chirper   ***'
+    echo '****************************'
+
+    for image in "${IMAGES[@]}"; do
+        docker tag "$image" "$REGISTRY/$image"
+        docker push "$REGISTRY/$image"
+    done
+fi
+
+if [ "$DEPLOY_CHIRPER" == "1" ]; then
+    echo '****************************'
+    echo '***  Deploying chirper   ***'
+    echo '****************************'
+
+    for file in $RESOURCES_PATH/chirper/*; do
+        jq -M ". |
+            if .kind == \"StatefulSet\" then
+                .spec.template.spec.containers |= map(
+                    .image = \"$REGISTRY/\" + .image |
+                    .imagePullPolicy = \"Always\"
+                )
+            else
+                .
+            end
+        " "$file" | kubectl create -f -
+    done
+fi
+
+if [ "$DEPLOY_NGINX" == "1" ]; then
+    echo '****************************'
+    echo '***  Deploying nginx     ***'
+    echo '****************************'
+
+    kubectl create -f "$RESOURCES_PATH/nginx"
+fi
+
+kubectl get all

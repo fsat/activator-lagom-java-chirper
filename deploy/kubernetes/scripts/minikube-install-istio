@@ -2,7 +2,7 @@
 
 set -e
 
-RESOURCES_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+RESOURCES_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")/../resources" && pwd)"
 
 (which minikube &>/dev/null) || (echo '* missing minikube, is it installed?' && exit 1)
 (which kubectl &>/dev/null) || (echo '* missing kubectl, is it installed?' && exit 1)
