@@ -1,5 +1,6 @@
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption
+import sbt.Resolver.bintrayRepo
 import com.typesafe.sbt.web.SbtWeb
 import com.typesafe.sbt.packager.docker._
 
@@ -29,6 +30,7 @@ lazy val friendImpl = project("friend-impl")
         case ExecCmd("ENTRYPOINT", args @ _*) => Seq(Cmd("ENTRYPOINT", args.mkString(" ")))
         case v => Seq(v)
       },
+    resolvers += bintrayRepo("hajile", "maven"),
     libraryDependencies ++= Seq(
       lagomJavadslPersistenceCassandra,
       lagomJavadslTestKit,
@@ -59,6 +61,7 @@ lazy val chirpImpl = project("chirp-impl")
         case ExecCmd("ENTRYPOINT", args @ _*) => Seq(Cmd("ENTRYPOINT", args.mkString(" ")))
         case v => Seq(v)
       },
+    resolvers += bintrayRepo("hajile", "maven"),
     libraryDependencies ++= Seq(
       lagomJavadslPersistenceCassandra,
       lagomJavadslPubSub,
@@ -88,6 +91,7 @@ lazy val activityStreamImpl = project("activity-stream-impl")
         case ExecCmd("ENTRYPOINT", args @ _*) => Seq(Cmd("ENTRYPOINT", args.mkString(" ")))
         case v => Seq(v)
       },
+    resolvers += bintrayRepo("hajile", "maven"),
     libraryDependencies ++= Seq(
       lagomJavadslTestKit,
       Library.serviceLocatorDns
@@ -109,6 +113,7 @@ lazy val frontEnd = project("front-end")
         case ExecCmd("ENTRYPOINT", args @ _*) => Seq(Cmd("ENTRYPOINT", args.mkString(" ")))
         case v => Seq(v)
       },
+    resolvers += bintrayRepo("hajile", "maven"),
     libraryDependencies ++= Seq(
       "org.webjars" % "foundation" % "5.5.2",
       "org.webjars" %% "webjars-play" % "2.5.0",
@@ -162,6 +167,7 @@ lazy val loadTestImpl = project("load-test-impl")
   .enablePlugins(LagomJava)
   .settings(
     version := "1.0-SNAPSHOT",
+    resolvers += bintrayRepo("hajile", "maven"),
     libraryDependencies += Library.serviceLocatorDns
    )
   .dependsOn(loadTestApi, friendApi, activityStreamApi, chirpApi)
