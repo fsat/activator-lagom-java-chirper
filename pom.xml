@@ -184,7 +184,7 @@
           <serviceLocator.provider.artifactVersion>1.9.1</serviceLocator.provider.artifactVersion>
         </properties>
         <activation>
-          <activeByDefault>true</activeByDefault>
+          <activeByDefault>false</activeByDefault>
         </activation>
       </profile>
 
@@ -197,7 +197,7 @@
           <serviceLocator.provider.artifactVersion>1.0.2</serviceLocator.provider.artifactVersion>
         </properties>
         <activation>
-          <activeByDefault>false</activeByDefault>
+          <activeByDefault>true</activeByDefault>
         </activation>
       </profile>
     </profiles>
