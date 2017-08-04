@@ -33,9 +33,8 @@ lazy val friendImpl = project("friend-impl")
     resolvers += bintrayRepo("hajile", "maven"),
     libraryDependencies ++= Seq(
       lagomJavadslPersistenceCassandra,
-      lagomJavadslTestKit,
-      Library.serviceLocatorDns
-    )
+      lagomJavadslTestKit
+    ) ++ BuildTarget.additionalLibraryDependencies
   )
   .settings(lagomForkedTestSettings: _*)
   .dependsOn(friendApi)
@@ -65,9 +64,8 @@ lazy val chirpImpl = project("chirp-impl")
     libraryDependencies ++= Seq(
       lagomJavadslPersistenceCassandra,
       lagomJavadslPubSub,
-      lagomJavadslTestKit,
-      Library.serviceLocatorDns
-    )
+      lagomJavadslTestKit
+    ) ++ BuildTarget.additionalLibraryDependencies
   )
   .settings(lagomForkedTestSettings: _*)
   .dependsOn(chirpApi)
@@ -93,9 +91,8 @@ lazy val activityStreamImpl = project("activity-stream-impl")
       },
     resolvers += bintrayRepo("hajile", "maven"),
     libraryDependencies ++= Seq(
-      lagomJavadslTestKit,
-      Library.serviceLocatorDns
-    )
+      lagomJavadslTestKit
+    ) ++ BuildTarget.additionalLibraryDependencies
   )
   .dependsOn(activityStreamApi, chirpApi, friendApi)
 
@@ -117,9 +114,8 @@ lazy val frontEnd = project("front-end")
     libraryDependencies ++= Seq(
       "org.webjars" % "foundation" % "5.5.2",
       "org.webjars" %% "webjars-play" % "2.5.0",
-      lagomJavadslClient,
-      Library.serviceLocatorDns
-    ),
+      lagomJavadslClient
+    ) ++ BuildTarget.additionalLibraryDependencies,
 
     includeFilter in webpack := "*.js" || "*.jsx",
     compile in Compile := (compile in Compile).dependsOn(webpack.toTask("")).value,
@@ -168,7 +164,7 @@ lazy val loadTestImpl = project("load-test-impl")
   .settings(
     version := "1.0-SNAPSHOT",
     resolvers += bintrayRepo("hajile", "maven"),
-    libraryDependencies += Library.serviceLocatorDns
+    libraryDependencies ++= BuildTarget.additionalLibraryDependencies
    )
   .dependsOn(loadTestApi, friendApi, activityStreamApi, chirpApi)
 
