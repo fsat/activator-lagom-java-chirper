@@ -91,6 +91,7 @@ lazy val activityStreamImpl = project("activity-stream-impl")
       },
     resolvers += bintrayRepo("hajile", "maven"),
     libraryDependencies ++= Seq(
+      lagomJavadslCluster,
       lagomJavadslTestKit
     ) ++ BuildTarget.additionalLibraryDependencies
   )
